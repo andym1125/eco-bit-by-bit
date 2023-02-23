@@ -1,0 +1,27 @@
+{
+  "name": "eco-bit-by-bit",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "app": "yarn workspace @[rootfolder_name]/client start",
+    "server": "yarn workspace @[rootfolder_name]/api serve",
+    "build-app": "yarn workspace @[rootfolder_name]/client build",
+    "build-server": "yarn workspace @[rootfolder_name]/api build",
+    "start": "concurrently --kill-others-on-fail \"react-scripts start\"",
+    "start:server": "yarn workspace @[rootfolder_name]/api start"
+  },
+  "engines": {
+    "node": "14.15.0"
+  },
+  "keywords": [],
+  "author": "",
+  "workspaces": ["packages/*"],
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^7.6.0",
+    "node": "^19.6.0"
+  }
+}
