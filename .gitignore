@@ -12,7 +12,7 @@
 
 # production
 /build
-/packages/server/dist
+/packages/*/dist
 
 # misc
 .DS_Store
