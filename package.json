@@ -18,7 +18,7 @@
     "svr": "npm run start-server"
   },
   "engines": {
-    "node": "v16.15.0"
+    "node": "v18.12.1"
   },
   "keywords": [],
   "author": "",
