@@ -14,6 +14,9 @@
 /build
 /packages/*/dist
 
+# dev experience
+aliases.sh
+
 # misc
 .DS_Store
 .env.local
