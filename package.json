@@ -11,26 +11,27 @@
     "build": "npm run build-client && npm run build-server",
     "build-server": "echo No build command",
     "build-client": "npm run build --workspace=@eco-bit-by-bit/client",
-
     "client": "npm run start-client",
     "cli": "npm run start-client",
     "server": "npm run start-server",
     "svr": "npm run start-server"
   },
   "engines": {
-    "node": "v16.15.0"
+    "node": "v18.12.1"
   },
   "keywords": [],
   "author": "",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "license": "ISC",
   "dependencies": {
     "node": "^19.6.0"
   },
   "devDependencies": {
-    "concurrently": "^7.6.0",
     "@types/node": "^18.14.1",
-    "npm": "^9.5.1",
+    "concurrently": "^7.6.0",
+    "npm": "^9.6.2",
     "tslint": "^6.1.3",
     "typescript": "^4.9.5"
   }
