@@ -3,7 +3,10 @@ import express from 'express'
 const app = express()
 const PORT = 3000
 
-app.get('/', (req, res) => {
+const CLIENT_PATH = '/'
+const SCORE_PATH = '/score'
+
+app.get(CLIENT_PATH, (req, res) => {
     res.send("Hello world")
 })
 
