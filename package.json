@@ -5,16 +5,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently --kill-others-on-fail \"npm run start --workspace=@eco-bit-by-bit/client\"",
-    "start-client": "npm run start --workspace=@eco-bit-by-bit/client",
-    "start-server": "echo No command implemented",
     "build": "npm run build-client && npm run build-server",
-    "build-server": "echo No build command",
-    "build-client": "npm run build --workspace=@eco-bit-by-bit/client",
+    "start": "concurrently --kill-others-on-fail \"npm run start-client\" \"npm run start-server\"",
+
+    "start-client": "npm run start --workspace=@eco-bit-by-bit/client",
     "client": "npm run start-client",
-    "cli": "npm run start-client",
-    "server": "npm run start-server",
-    "svr": "npm run start-server"
+
+    "start-server": "npm run start --workspace=@eco-bit-by-bit/server",
+    "server": "npm run start-server"
   },
   "engines": {
     "node": "^18.12.1"
