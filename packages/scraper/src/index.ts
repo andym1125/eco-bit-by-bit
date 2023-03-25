@@ -1,6 +1,6 @@
 import puppeteer, {Browser, Page} from 'puppeteer'
 
-async function scraper(page : Page) {
+async function scrapePage(page : Page) {
     console.log((await page.$eval('#productTitle', (el) => el.innerHTML)).trim())
 }
 
@@ -12,7 +12,7 @@ function runScraper(url : string) {
         browser = result
         const page = await browser.newPage()
         await page.goto(url)
-        await scraper(page)
+        await scrapePage(page)
     }).catch((e) => {
         console.error(e)
     }).finally(async () => {
