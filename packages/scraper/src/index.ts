@@ -1,6 +1,10 @@
-import puppeteer, {Browser} from 'puppeteer'
+import puppeteer, {Browser, Page} from 'puppeteer'
 
-async function runScraper(url : string) {
+async function scraper(page : Page) {
+    console.log((await page.$eval('#productTitle', (el) => el.innerHTML)).trim())
+}
+
+function runScraper(url : string) {
     const browserPromise = puppeteer.launch()
     let browser : Browser
 
@@ -8,8 +12,7 @@ async function runScraper(url : string) {
         browser = result
         const page = await browser.newPage()
         await page.goto(url)
-
-        console.log((await page.$eval('#productTitle', (el) => el.innerHTML)).trim())
+        await scraper(page)
     }).catch((e) => {
         console.error(e)
     }).finally(async () => {
