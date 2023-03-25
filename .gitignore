@@ -12,7 +12,10 @@
 
 # production
 /build
-/packages/server/dist
+/packages/*/dist
+
+# dev experience
+aliases.sh
 
 # misc
 .DS_Store
