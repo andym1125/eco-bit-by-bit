@@ -1,0 +1,13 @@
+.homePage {
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.homePage h1 {
+    margin: 0
+}
+
+.homePage p {
+    font-family: sans-serif;
+    margin: 0
+}
