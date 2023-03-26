@@ -1,7 +1,7 @@
 import React from "react";
 import './homepage.css';
 
-import Logo from './logo.png';
+import LogoImage from './logo.png';
 
 function Homepage() {
     return (
