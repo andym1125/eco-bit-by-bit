@@ -1,7 +1,7 @@
 import React from "react";
 import './homepage.css';
 
-let Logo = require('./logo.png');
+let LogoImage = require('./logo.png');
 
 function Homepage() {
     return (
@@ -9,8 +9,8 @@ function Homepage() {
     <h1>
       <img
         style={{ width: 100, height: 100 }}
-        src={Logo}
-        alt="React Logo"
+        src={LogoImage}
+        alt="Project Logo"
       />
     </h1>
     <p>{"\n"}Website under construction</p>
