@@ -1,7 +1,7 @@
 import React from "react";
 import './homepage.css';
 
-let LogoImage = require('./logo.png');
+import Logo from './logo.png';
 
 function Homepage() {
     return (
