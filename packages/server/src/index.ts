@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { RequestHandler } from 'express'
 
 const app = express()
 const PORT = 3000
@@ -6,11 +6,60 @@ const PORT = 3000
 const CLIENT_PATH = '/'
 const SCORE_PATH = '/score'
 
-app.get(CLIENT_PATH, (req, res) => {
-    res.send("Hello world")
+type ScoreResponseBody = {
+    score: number,
+    breakdown: {
+        water: number,
+        carbon: number,
+        esg: 'CCC'|'B'|'BB'|'BBB'|'A'|'AA'|'AAA',
+        bio: number,
+        recycle: number,
+        durable: number,
+        ctx: string // extra context of breakdown if needed
+    },
+    expl: string, // explanation of scores
+    err: string, // if error exists, this will not be empty
+    reli_expl: string,
+    reliability: number,
+}
+
+
+app.get("/", (req, res) => {
+    res.send('Hellow world')
 })
+
+app.get("/score", (req, res) => {
+    res.send("{err: 'No parameters'}")
+})
+
+app.get("/score/*", getScorePath)
 
 app.listen(PORT, () => {
     // tslint:disable-next-line:no-console
     console.log(`Server running at ${PORT}`)
 })
+
+function dummyScoreResponse() : ScoreResponseBody
+{
+    return {
+        score: 98,
+        breakdown: {
+            water: 34,
+            carbon: 52,
+            esg: 'BBB',
+            bio: 16,
+            recycle: 34,
+            durable: 25,
+            ctx: "Idk, maybe the carbon or something something" // extra context of breakdown if needed
+        },
+        expl: "This score is not very accurate. In fact, it is dummy text", // explanation of scores
+        err: null, // if error exists, this will not be empty
+        reli_expl: "This is dummy data bro",
+        reliability: 0,
+    }
+}
+
+function getScorePath (req: any, res: any)
+{
+    res.send(dummyScoreResponse())
+}
