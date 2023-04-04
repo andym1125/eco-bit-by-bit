@@ -1,4 +1,6 @@
 export interface ScoreResponseBody {
+    name: string,
+    url: string,
     score: number,
     breakdown: {
         water: number,

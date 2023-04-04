@@ -25,6 +25,8 @@ app.listen(PORT, () => {
 function dummyScoreResponse() : ScoreResponseBody
 {
     return {
+        name: "Lorem Product",
+        url: "amazon.com/loremipsumproduct",
         score: 98,
         breakdown: {
             water: 34,
