@@ -1,4 +1,5 @@
 import express, { RequestHandler } from 'express'
+import {ScoreResponseBody} from './../../types'
 
 const app = express()
 const PORT = 3000
@@ -6,26 +7,8 @@ const PORT = 3000
 const CLIENT_PATH = '/'
 const SCORE_PATH = '/score'
 
-type ScoreResponseBody = {
-    score: number,
-    breakdown: {
-        water: number,
-        carbon: number,
-        esg: 'CCC'|'B'|'BB'|'BBB'|'A'|'AA'|'AAA',
-        bio: number,
-        recycle: number,
-        durable: number,
-        ctx: string // extra context of breakdown if needed
-    },
-    expl: string, // explanation of scores
-    err: string, // if error exists, this will not be empty
-    reli_expl: string,
-    reliability: number,
-}
-
-
 app.get("/", (req, res) => {
-    res.send('Hellow world')
+    res.send('Hello world')
 })
 
 app.get("/score", (req, res) => {
