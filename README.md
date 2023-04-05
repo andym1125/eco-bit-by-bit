@@ -1,1 +1,1 @@
-# Welcome to Eco porject by Bit-by-Bit
+# Welcome to Eco project by Bit-by-Bit
