@@ -13,6 +13,7 @@
 # production
 /build
 /packages/*/dist
+/packages/*/build
 
 # dev experience
 aliases.sh
