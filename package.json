@@ -5,7 +5,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run build-client && npm run build-server",
     "start": "concurrently --kill-others-on-fail \"npm run start-client\" \"npm run start-server\"",
 
     "start-client": "npm run start --workspace=@eco-bit-by-bit/client",

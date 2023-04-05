@@ -2,7 +2,7 @@ import express, { RequestHandler } from 'express'
 import {ScoreResponseBody} from './../../types'
 
 const app = express()
-const PORT = 3000
+const PORT = 3001
 
 const CLIENT_PATH = '/'
 const SCORE_PATH = '/score'
@@ -25,6 +25,8 @@ app.listen(PORT, () => {
 function dummyScoreResponse() : ScoreResponseBody
 {
     return {
+        name: "Lorem Product",
+        url: "amazon.com/loremipsumproduct",
         score: 98,
         breakdown: {
             water: 34,
