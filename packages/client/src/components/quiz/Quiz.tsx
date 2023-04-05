@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 function Quiz() {
   return (
-    <div className="History-app">
-      <header className="History-header">
+    <div className="Quiz-app">
+      <header className="Quiz-header">
         <p> Quiz Page </p>
         <Link to="/"> go back </Link>
       </header>
