@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./homepage.css";
+import "./Homepage.css";
 
 // importing logo
 let LogoImage = require("./logo.png");
