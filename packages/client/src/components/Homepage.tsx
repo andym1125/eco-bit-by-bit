@@ -26,11 +26,12 @@ function Homepage() {
     // something
   };
 
+
+  // list of all the people
   const people = [
     { name: "Melis Tasatmaz", github: "https://github.com/Angel0002" },
     {
-      name: 'Michael "Andy" McDowall',
-      github: "https://github.com/andym1125",
+      name: 'Michael "Andy" McDowall', github: "https://github.com/andym1125",
     },
     { name: "Aryan Patel", github: "https://github.com/Aryan-Patel5475" },
     { name: "Jason Wolfe", github: "https://github.com/Ogwolfe" },
