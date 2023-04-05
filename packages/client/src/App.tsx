@@ -1,5 +1,5 @@
 import "./App.css";
-import Homepage from "./components/homepage";
+import Homepage from "./components/Homepage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Quiz from "./components/quiz/Quiz";
 import History from "./components/history/History";

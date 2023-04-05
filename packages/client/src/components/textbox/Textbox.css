@@ -1,0 +1,58 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 20px 20px 0;
+}
+
+.input-box-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.input-box {
+  width: 500px;
+  margin-right: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  height: 50px;
+}
+
+.copy-button,
+.delete-button {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  height: 50px;
+  width: 100px;
+}
+
+.copy-button {
+  margin-right: 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+}
+
+.add-box-button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #6096b4;
+  color: #fff;
+  border: none;
+}
+
+/* Make the first input box sticky */
