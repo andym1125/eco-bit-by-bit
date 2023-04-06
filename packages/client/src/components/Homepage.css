@@ -1,55 +1,53 @@
 .homepage {
   font-family: sans-serif;
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.homepage h1 {
+body {
+  background-color: #eee9da;
+  height: 50vw;
+}
+
+.homepage header {
   background-color: #6096b4;
-  margin: 0;
-  width: 100vw;
-  height: 100px;
-}
-
-.homepage h2 {
-  background-color: #eee9da;
-  margin: 0;
-  height: 100px;
-  padding-top: 100px;
-  width: 100vw;
-  z-index: 1;
-}
-
-.homepage p {
-  background-color: #eee9da;
-  margin: 0;
-  width: 100vw;
-  height: 95vw;
+  width: 100%;
 }
 
 .button-container {
   /* other styles */
   padding-top: 75px;
-  padding-left: 60%;
+  padding-left: 55%;
   margin: 0;
-  padding-bottom: 100px;
+  padding-bottom: -10px;
 }
 
 .quiz-button {
   margin: 0;
   background-color: #b0c988;
+  height: 30px;
+  width: 70px;
 }
 
 .history-button {
   margin: 0;
   background-color: #b0c988;
+  height: 30px;
+  width: 70px;
 }
 
 .compare-button {
   margin: 0;
   background-color: #b0c988;
+  height: 30px;
+  width: 70px;
 }
 
 .filter-button {
   margin: 0;
   background-color: #b0c988;
+  height: 30px;
+  width: 70px;
 }
