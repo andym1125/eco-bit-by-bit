@@ -1,7 +1,16 @@
 import puppeteer, {Browser, Page} from 'puppeteer'
 
 async function scrapePage(page : Page) {
-    console.log((await page.$eval('#productTitle', (el) => el.innerHTML)).trim())
+    const title = (await page.$eval('#productTitle', (el) => el.innerHTML)).trim()
+
+    const reviewQuery = '#reviewsMedley > div > .a-col-left > span.cr-widget-TitleRatingsHistogram > span > .AverageCustomerReviews > div > div.a-col-right > div > span > span'
+    const reviewText = await page.$eval(reviewQuery, (el) => el.innerText)
+    const reviewNum = parseFloat(reviewText.match(/\d+\.\d+/g)[0])
+
+
+    console.log(`title: ${title}`)
+    console.log(`review: ${reviewNum}`)
+
 }
 
 function runScraper(url : string) {
@@ -24,3 +33,5 @@ function runScraper(url : string) {
     })
 }
 runScraper("https://www.amazon.com/Skechers-Expected-Avillo-Relaxed-Fit-Loafer/dp/B00P6LHCAO/");
+runScraper("https://www.amazon.com/Gildan-Mens-T-Shirt-Assortment-X-Large/dp/B077ZJXCTS");
+runScraper("https://www.amazon.com/Simple-Joys-Carters-4-Pack-Stripes/dp/B08XWJJPFK/");
