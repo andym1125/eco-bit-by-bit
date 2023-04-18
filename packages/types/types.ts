@@ -16,3 +16,11 @@ export interface ScoreResponseBody {
     reli_expl: string,
     reliability: number,
 }
+
+export interface ScraperBody {
+    title: string,
+    customer_rating: number,
+    esg: 'CCC'|'B'|'BB'|'BBB'|'A'|'AA'|'AAA',
+    temp: number,
+    msci_rating: number
+}
