@@ -45,191 +45,229 @@ function Quiz() {
                 </p>
             </div>
             <form>
-                <label>
-                    1. What type of products do you use the most in your daily life?
-                    <br />
-                    <input
-                        type="radio"
-                        name="question1"
-                        value="a"
-                        onChange={() => handleAnswer("a")}
-                    />{" "}
-                    Clothing and accessories
-                    <br />
-                    <input
-                        type="radio"
-                        name="question1"
-                        value="b"
-                        onChange={() => handleAnswer("b")}
-                    />{" "}
-                    Shoes and footwear
-                    <br />
-                    <input
-                        type="radio"
-                        name="question1"
-                        value="c"
-                        onChange={() => handleAnswer("c")}
-                    />{" "}
-                    Household cleaning and personal care products
-                    <br />
-                    <input
-                        type="radio"
-                        name="question1"
-                        value="d"
-                        onChange={() => handleAnswer("d")}
-                    />{" "}
-                    Bedding and bath products
-                </label>
-                <br />
-                <br />
-                <label>
-                    2. How important is sustainability to you when it comes to purchasing
-                    products?
-                    <br />
-                    <input
-                        type="radio"
-                        name="question2"
-                        value="a"
-                        onChange={() => handleAnswer("a")}
-                    />{" "}
-                    Very important
-                    <br />
-                    <input
-                        type="radio"
-                        name="question2"
-                        value="b"
-                        onChange={() => handleAnswer("b")}
-                    />{" "}
-                    Somewhat important
-                    <br />
-                    <input
-                        type="radio"
-                        name="question2"
-                        value="c"
-                        onChange={() => handleAnswer("c")}
-                    />{" "}
-                    Not very important
-                    <br />
-                    <input
-                        type="radio"
-                        name="question2"
-                        value="d"
-                        onChange={() => handleAnswer("d")}
-                    />{" "}
-                    Not at all important
-                </label>
-                <br />
-                <br />
-                <label>
-                    3. How often do you purchase new products?
-                    <br />
-                    <input
-                        type="radio"
-                        name="question3"
-                        value="a"
-                        onChange={() => handleAnswer("a")}
-                    />{" "}
-                    Frequently, I like to keep up with the latest trends
-                    <br />
-                    <input
-                        type="radio"
-                        name="question3"
-                        value="b"
-                        onChange={() => handleAnswer("b")}
-                    />{" "}
-                    Occasionally, when I need something specific
-                    <br />
-                    <input
-                        type="radio"
-                        name="question3"
-                        value="c"
-                        onChange={() => handleAnswer("c")}
-                    />{" "}
-                    Rarely, I try to make things last as long as possible
-                    <br />
-                    <input
-                        type="radio"
-                        name="question3"
-                        value="d"
-                        onChange={() => handleAnswer("d")}
-                    />{" "}
-                    Never, I prefer to use what I already have
-                </label>
-                <br />
-                <br />
-                <label>
-                    4. What type of materials do you prefer for your products?
-                    <br />
-                    <input
-                        type="radio"
-                        name="question4"
-                        value="a"
-                        onChange={() => handleAnswer("a")}
-                    />{" "}
-                    Recycled materials
-                    <br />
-                    <input
-                        type="radio"
-                        name="question4"
-                        value="b"
-                        onChange={() => handleAnswer("b")}
-                    />{" "}
-                    Organic materials
-                    <br />
-                    <input
-                        type="radio"
-                        name="question4"
-                        value="c"
-                        onChange={() => handleAnswer("c")}
-                    />{" "}
-                    Plant-based materials
-                    <br />
-                    <input
-                        type="radio"
-                        name="question4"
-                        value="d"
-                        onChange={() => handleAnswer("d")}
-                    />{" "}
-                    All of the above
-                </label>
-                <br />
-                <br />
-                <label>
-                    5. How much are you willing to spend on eco-friendly products?
-                    <br />
-                    <input
-                        type="radio"
-                        name="question5"
-                        value="a"
-                        onChange={() => handleAnswer("a")}
-                    />{" "}
-                    I'm willing to spend more to support sustainable brands
-                    <br />
-                    <input
-                        type="radio"
-                        name="question5"
-                        value="b"
-                        onChange={() => handleAnswer("b")}
-                    />{" "}
-                    I don't mind spending a little extra, but not too much
-                    <br />
-                    <input
-                        type="radio"
-                        name="question5"
-                        value="c"
-                        onChange={() => handleAnswer("c")}
-                    />{" "}
-                    I prefer to stick to more affordable options
-                    <br />
-                    <input
-                        type="radio"
-                        name="question5"
-                        value="d"
-                        onChange={() => handleAnswer("d")}
-                    />{" "}
-                    Price isn't a factor for me
-                </label>
-            </form>
+        <label>
+          1. What type of products do you use the most in your daily life?
+          <br />
+          <label>
+          <input
+            type="radio"
+            name="question1"
+            value="a"
+            onChange={() => handleAnswer("a")}
+          />{" "}
+          Clothing and accessories
+          </label>
+          <br />
+          <label>
+          <input
+            type="radio"
+            name="question1"
+            value="b"
+            onChange={() => handleAnswer("b")}
+          />{" "}
+          Shoes and footwear
+          </label>
+          <br />
+          <label>
+          <input
+            type="radio"
+            name="question1"
+            value="c"
+            onChange={() => handleAnswer("c")}
+          />{" "}
+          Household cleaning and personal care products
+          </label>
+          <br />
+          <label>
+          <input
+            type="radio"
+            name="question1"
+            value="d"
+            onChange={() => handleAnswer("d")}
+          />{" "}
+          Bedding and bath products
+        </label>
+        </label>
+        <br />
+        <br />
+        <label>
+          2. How important is sustainability to you when it comes to purchasing
+          products?
+          <br />
+          <label>
+            <input
+            type="radio"
+            name="question2"
+            value="a"
+            onChange={() => handleAnswer("a")}
+          />{" "}
+          Very important
+          </label>
+          <br />
+          <label>
+            <input
+            type="radio"
+            name="question2"
+            value="b"
+            onChange={() => handleAnswer("b")}
+          />{" "}
+          Somewhat important
+          <br />
+          <label>
+            <input
+            type="radio"
+            name="question2"
+            value="c"
+            onChange={() => handleAnswer("c")}
+          />{" "}
+          Not very important
+          <br />
+          <label>
+            <input
+            type="radio"
+            name="question2"
+            value="d"
+            onChange={() => handleAnswer("d")}
+          />{" "}
+          Not at all important
+          </label>
+          </label>
+        <br />
+        <br />
+        <label>
+          3. How often do you purchase new products?
+          <br />
+          <label>
+            <input
+            type="radio"
+            name="question3"
+            value="a"
+            onChange={() => handleAnswer("a")}
+          />{" "}
+          Frequently, I like to keep up with the latest trends
+          </label>
+          <br />
+          <label>
+            <input
+            type="radio"
+            name="question3"
+            value="b"
+            onChange={() => handleAnswer("b")}
+          />{" "}
+          Occasionally, when I need something specific
+          </label>
+          <br />
+          <label>
+            <input
+            type="radio"
+            name="question3"
+            value="c"
+            onChange={() => handleAnswer("c")}
+          />{" "}
+          Rarely, I try to make things last as long as possible
+          </label>
+          <br />
+          <label>
+            <input
+            type="radio"
+            name="question3"
+            value="d"
+            onChange={() => handleAnswer("d")}
+          />{" "}
+          Never, I prefer to use what I already have
+          </label>
+          </label>
+        <br />
+        <br />
+        <label>
+          4. What type of materials do you prefer for your products?
+          <br />
+          <input
+            type="radio"
+            name="question4"
+            value="a"
+            onChange={() => handleAnswer("a")}
+          />{" "}
+          Recycled materials
+          </label>
+          <br />
+          <label>
+            <input
+            type="radio"
+            name="question4"
+            value="b"
+            onChange={() => handleAnswer("b")}
+          />{" "}
+          Organic materials
+          </label>
+          <br />
+          <label>
+            <input
+            type="radio"
+            name="question4"
+            value="c"
+            onChange={() => handleAnswer("c")}
+          />{" "}
+          Plant-based materials
+          </label>
+          <br />
+          <label>
+            <input
+            type="radio"
+            name="question4"
+            value="d"
+            onChange={() => handleAnswer("d")}
+          />{" "}
+          All of the above
+          </label>
+          </label>
+        <br />
+        <br />
+        <label>
+          5. How much are you willing to spend on eco-friendly products?
+          </label>
+          <br />
+          <label>
+            <input
+            type="radio"
+            name="question5"
+            value="a"
+            onChange={() => handleAnswer("a")}
+          />{" "}
+          I'm willing to spend more to support sustainable brands
+          </label>
+          <br />
+          <label>
+            <input
+            type="radio"
+            name="question5"
+            value="b"
+            onChange={() => handleAnswer("b")}
+          />{" "}
+          I don't mind spending a little extra, but not too much
+          </label>
+          <br />
+          <label>
+            <input
+            type="radio"
+            name="question5"
+            value="c"
+            onChange={() => handleAnswer("c")}
+          />{" "}
+          I prefer to stick to more affordable options
+          </label>
+          <br />
+          <label>
+            <input
+            type="radio"
+            name="question5"
+            value="d"
+            onChange={() => handleAnswer("d")}
+          />{" "}
+          Price isn't a factor for me
+          </label>
+        </label>
+      </form>
             <h3> Your recommended brand is {result} </h3>
             <Link to="/"> Back to home page </Link>
         </div>
