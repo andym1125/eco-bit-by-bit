@@ -19,8 +19,9 @@ export interface ScoreResponseBody {
 
 export interface ScraperBody {
     title: string,
+    manufacturer: string,
     customer_rating: number,
     esg: 'CCC'|'B'|'BB'|'BBB'|'A'|'AA'|'AAA',
     temp: number,
-    msci_rating: number
+    description: HTMLDivElement
 }
