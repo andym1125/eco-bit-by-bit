@@ -51,3 +51,34 @@ body {
   height: 30px;
   width: 70px;
 }
+
+.filter-button:hover {
+  background-color: #3d8b3d;
+}
+
+.filter-content {
+  font-size: 18px;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 230px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  z-index: 1;
+  /* hide filter by default */
+  display: none; 
+}
+
+/* show the filter content on hover */
+.filter-button:hover + .filter-content,
+.filter-content:hover {
+  display: block; 
+}
+
+.slider-value {
+  margin-left: 8px;
+}
+
+.filter-content label {
+  display: block;
+}
