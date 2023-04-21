@@ -22,7 +22,8 @@
 }
 
 .copy-button,
-.delete-button {
+.delete-button,
+.score-button {
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 16px;
@@ -44,6 +45,13 @@
     border: none;
 }
 
+.score-button {
+    margin-left: 10px;
+    background-color: cornflowerblue;
+    border: none;
+    color: #fff;
+}
+
 .add-box-button {
     margin-top: 10px;
     padding: 5px 10px;
@@ -53,4 +61,19 @@
     background-color: #6096b4;
     color: #fff;
     border: none;
+}
+
+.dropdown-menu {
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.input-wrapper {
+    position: relative;
+    display: inline-block;
+    padding-top: 10px;
 }
