@@ -6,10 +6,8 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently --kill-others-on-fail \"npm run start-client\" \"npm run start-server\"",
-
     "start-client": "npm run start --workspace=@eco-bit-by-bit/client",
     "client": "npm run start-client",
-
     "start-server": "npm run start --workspace=@eco-bit-by-bit/server",
     "server": "npm run start-server"
   },
@@ -23,7 +21,10 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "node": "^19.6.0"
+    "chart.js": "^4.2.1",
+    "cors": "^2.8.5",
+    "node": "^19.6.0",
+    "react-chartjs-2": "^5.2.0"
   },
   "devDependencies": {
     "@types/node": "^18.14.1",
