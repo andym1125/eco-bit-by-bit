@@ -1,7 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Textbox.css";
 import { useDeletedValues} from "./DeletedValuesContext";
 import {useInputValues} from "./InputValuesContext";
+
+interface ScoreResponseBody {
+    score: number;
+    breakdown: {
+        water: number;
+        carbon: number;
+        esg: "CCC" | "B" | "BB" | "BBB" | "A" | "AA" | "AAA";
+        bio: number;
+        recycle: number;
+        durable: number;
+        ctx: string; //extra context of breakdown if needed
+    };
+    expl: string; //explanation of scores
+    err: string; //if error exists, this will not be empty
+    reli_expl: string;
+    reliability: number;
+}
 
 interface InputBoxProps {
     onDelete: (value: string) => void;
@@ -11,8 +28,29 @@ const Textbox: React.FC<InputBoxProps> = ({ onDelete }) => {
     const { inputValues, setInputValues } = useInputValues();
     const [copied, setCopied] = useState<boolean[]>([false]);
     const { deletedValues, addDeletedValue } = useDeletedValues();
-
     const [dropdownVisible, setDropdownVisible] = useState<boolean[]>([]);
+    const [scoreData, setScoreData] = useState<ScoreResponseBody | null>(null);
+    const [allScores, setAllScores] = useState<ScoreResponseBody[]>([]);
+
+    const fetchData = async (url: string) => {
+        try {
+            const response = await fetch(url);
+            if (response.ok) {
+                const data: ScoreResponseBody = await response.json();
+                console.log("Fetched data:", data);
+                setAllScores((prevScores) => [...prevScores, data]);
+            } else {
+                console.error("Error fetching data. Status:", response.status);
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    const fetchScoreData = (inputUrl: string) => {
+        const productId = inputUrl.split("/").slice(3).join("/");
+        fetchData(`http://localhost:3001/score/${productId}`);
+    };
 
     const toggleDropdown = (index: number) => {
         const newDropdownVisible = [...dropdownVisible];
@@ -63,7 +101,7 @@ const Textbox: React.FC<InputBoxProps> = ({ onDelete }) => {
         <div className="container">
             {inputValues.map((value, index) => (
                 <div key={index} className="input-box-container">
-                    <div className = 'input-wrapper'>
+                    <div className='input-wrapper'>
                         <input
                             type="text"
                             value={value}
@@ -82,29 +120,31 @@ const Textbox: React.FC<InputBoxProps> = ({ onDelete }) => {
                         >
                             Delete
                         </button>
-                        <button className="score-button" onClick={() => toggleDropdown(index)}>
+                        <button
+                            className="score-button"
+                            onClick={() => {
+                                toggleDropdown(index);
+                                fetchScoreData(value);
+                            }}
+                        >
                             Score
                         </button>
-                        {dropdownVisible[index] && (
+                        {dropdownVisible[index] && allScores[index] && (
                             <div className="dropdown-menu" style={{ width: '100%' }}>
-                                <p>score: 0</p>
-                                <p>Breakdown: </p>
+                                <h3>Score: {allScores[index].score}</h3>
+                                <h4>Reliability: {allScores[index].reliability}</h4>
+                                <p>Explanation: {allScores[index].expl}</p>
+                                <p>Error: {allScores[index].err}</p>
+                                <p>Reliability Explanation: {allScores[index].reli_expl}</p>
+                                <h4>Breakdown:</h4>
                                 <ul>
-                                    <li>
-                                        water: 0, carbon: 0, esg: AAA, bio: 0, recycle: 0, durable: 0
-                                    </li>
-                                    <li>
-                                        extra content
-                                    </li>
-                                    <li>
-                                        explanation
-                                    </li>
-                                    <li>
-                                        error if they exists other wise empty
-                                    </li>
-                                    <li>
-                                        reliability: 0
-                                    </li>
+                                    <li>Water: {allScores[index].breakdown.water}</li>
+                                    <li>Carbon: {allScores[index].breakdown.carbon}</li>
+                                    <li>ESG: {allScores[index].breakdown.esg}</li>
+                                    <li>Bio: {allScores[index].breakdown.bio}</li>
+                                    <li>Recycle: {allScores[index].breakdown.recycle}</li>
+                                    <li>Durable: {allScores[index].breakdown.durable}</li>
+                                    <li>Extra context: {allScores[index].breakdown.ctx}</li>
                                 </ul>
                             </div>
                         )}

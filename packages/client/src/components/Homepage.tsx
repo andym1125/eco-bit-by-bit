@@ -47,7 +47,6 @@ function Homepage() {
             <button onClick={goToQuiz} className="quiz-button">
               Quiz
             </button>
-            <button className="filter-button">Filter</button>
             <button onClick={goToCompare} className="compare-button">
               Compare
             </button>
