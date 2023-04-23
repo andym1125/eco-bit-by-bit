@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "./Textbox.css";
 import { useDeletedValues} from "./DeletedValuesContext";
 import {useInputValues} from "./InputValuesContext";
+import { useProductNames } from "./ProductNamesContext";
 
 interface ScoreResponseBody {
     score: number;
@@ -31,14 +32,22 @@ const Textbox: React.FC<InputBoxProps> = ({ onDelete }) => {
     const [dropdownVisible, setDropdownVisible] = useState<boolean[]>([]);
     const [scoreData, setScoreData] = useState<ScoreResponseBody | null>(null);
     const [allScores, setAllScores] = useState<ScoreResponseBody[]>([]);
+    const { productNames, addProductName, setAllProductNames } = useProductNames();
+    const [inputBoxScores, setInputBoxScores] = useState<number[]>([]);
+    const [inputErrors, setInputErrors] = useState<string[]>([]);
 
-    const fetchData = async (url: string) => {
+    const fetchData = async (url: string, index: number) => {
         try {
             const response = await fetch(url);
             if (response.ok) {
                 const data: ScoreResponseBody = await response.json();
                 console.log("Fetched data:", data);
                 setAllScores((prevScores) => [...prevScores, data]);
+                setInputBoxScores((prevScores) => {
+                    const newScores = [...prevScores];
+                    newScores[index] = data.score;
+                    return newScores;
+                });
             } else {
                 console.error("Error fetching data. Status:", response.status);
             }
@@ -47,9 +56,9 @@ const Textbox: React.FC<InputBoxProps> = ({ onDelete }) => {
         }
     };
 
-    const fetchScoreData = (inputUrl: string) => {
+    const fetchScoreData = (inputUrl: string, index: number) => {
         const productId = inputUrl.split("/").slice(3).join("/");
-        fetchData(`http://localhost:3001/score/${productId}`);
+        fetchData(`http://localhost:3001/score/${productId}`, index);
     };
 
     const toggleDropdown = (index: number) => {
@@ -63,8 +72,31 @@ const Textbox: React.FC<InputBoxProps> = ({ onDelete }) => {
         index: number
     ) => {
         const newInputValues = [...inputValues];
-        newInputValues[index] = e.target.value;
+        const newProductNames = [...productNames];
+        const newInputErrors = [...inputErrors];
+        const url = e.target.value;
+
+        // Check if the input is a valid Amazon URL
+        const amazonUrlRegex = /^https:\/\/www\.amazon\.com\/.*\/dp\/\w+/;
+        if (amazonUrlRegex.test(url)) {
+            const urlParts = url.split("/");
+            const productName = urlParts[urlParts.indexOf("dp") - 1];
+            newProductNames[index] = productName;
+            newInputErrors[index] = "";
+            newInputValues[index] = url;
+        } else {
+            newInputErrors[index] = "Invalid Amazon URL";
+
+            setTimeout(() => {
+                const updatedInputErrors = [...inputErrors];
+                updatedInputErrors[index] = "";
+                setInputErrors(updatedInputErrors);
+            }, 3000);
+        }
+
         setInputValues(newInputValues);
+        setAllProductNames(newProductNames);
+        setInputErrors(newInputErrors);
     };
 
     const handleInputBoxDelete = (index: number) => {
@@ -75,6 +107,8 @@ const Textbox: React.FC<InputBoxProps> = ({ onDelete }) => {
         newCopied.splice(index, 1);
         setCopied(newCopied);
         setInputValues(newInputValues);
+        const newProductNames = productNames.filter((_, i) => i !== index);
+        setAllProductNames(newProductNames);
         onDelete(deletedValue);
     };
 
@@ -101,13 +135,20 @@ const Textbox: React.FC<InputBoxProps> = ({ onDelete }) => {
         <div className="container">
             {inputValues.map((value, index) => (
                 <div key={index} className="input-box-container">
+                    {/* ...other elements... */}
+                    {inputErrors[index] && <p className="error-text">{inputErrors[index]}</p>}
+                </div>
+            ))}
+            {inputValues.map((value, index) => (
+                <div key={index} className="input-box-container">
                     <div className='input-wrapper'>
                         <input
                             type="text"
-                            value={value}
+                            value={productNames[index] || value}
                             onChange={(e) => handleInputChange(e, index)}
                             className="input-box"
                         />
+
                         <button
                             className="copy-button"
                             onClick={() => copyToClipboard(value, index)}
@@ -124,10 +165,12 @@ const Textbox: React.FC<InputBoxProps> = ({ onDelete }) => {
                             className="score-button"
                             onClick={() => {
                                 toggleDropdown(index);
-                                fetchScoreData(value);
+                                fetchScoreData(value, index);
                             }}
                         >
-                            Score
+                            {inputBoxScores[index] !== undefined
+                                ? `Score: ${inputBoxScores[index]}`
+                                : "Process"}
                         </button>
                         {dropdownVisible[index] && allScores[index] && (
                             <div className="dropdown-menu" style={{ width: '100%' }}>

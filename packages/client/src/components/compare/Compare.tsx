@@ -92,7 +92,7 @@ function Compare() {
                 {
                     label: 'Recycle',
                     data: recycleArray,
-                    backgroundColor: 'rgba(255, 159, 64, 0.5)'
+                    backgroundColor: 'rgba(144, 238, 144, 0.5)'
                 },
                 {
                     label: 'Durable',
@@ -125,8 +125,13 @@ function Compare() {
     }, [allScores]);
 
     return (
-        <div className = 'chart'>
-            <canvas id="myChart"></canvas>
+        <div>
+            <header className = 'Compare-header'>
+                <h1>Compare Page</h1>
+            </header>
+            <div className = 'chart'>
+                <canvas id="myChart"></canvas>
+            </div>
         </div>
     )
 }

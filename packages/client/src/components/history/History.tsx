@@ -1,10 +1,17 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import {useDeletedValues} from "../textbox/DeletedValuesContext";
+import { useDeletedValues } from "../textbox/DeletedValuesContext";
+import "./History.css";
 
-function Quiz() {
+function History() {
     const { deletedValues } = useDeletedValues();
     const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+    const productName = (url: string): string => {
+        const titleRegex = /https:\/\/www\.amazon\.com\/(.*?)\//;
+        const matches = url.match(titleRegex);
+        return matches ? matches[1] : url;
+    };
 
     const copyToClipboard = (text: string, index: number) => {
         navigator.clipboard.writeText(text);
@@ -17,15 +24,21 @@ function Quiz() {
 
     return (
         <div>
-            <h2>Deleted Values</h2>
+            <header className="Header-History">
+                <h1>History Page</h1>
+            </header>
+            <h2 className = 'heading'>Deleted Products </h2>
             <ul>
                 {deletedValues.map((value, index) => (
-                    <li key={index}>
-                        {value}{' '}
+                    <li key={index} className="product-item">
+                        <div className="product-container">
+                            <div className="product-title">{productName(value)}</div>
+                        </div>
                         <button
+                            className="copy-button"
                             onClick={() => copyToClipboard(value, index)}
                         >
-                            {copiedIndex === index ? 'Copied!' : 'Copy'}
+                            {copiedIndex === index ? "Copied!" : "Copy URL"}
                         </button>
                     </li>
                 ))}
@@ -34,4 +47,4 @@ function Quiz() {
     );
 }
 
-export default Quiz;
+export default History;
