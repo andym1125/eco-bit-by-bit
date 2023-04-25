@@ -30,6 +30,7 @@
     cursor: pointer;
     height: 50px;
     width: 100px;
+    border-radius: 5%;
 }
 
 .copy-button {
@@ -76,4 +77,10 @@
     position: relative;
     display: inline-block;
     padding-top: 10px;
+}
+
+.error-text {
+    color: red;
+    font-size: 14px;
+    margin-left: 5px;
 }
