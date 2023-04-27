@@ -27,6 +27,7 @@
     "react-chartjs-2": "^5.2.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.13",
     "@types/node": "^18.14.1",
     "concurrently": "^7.6.0",
     "npm": "^9.6.2",
