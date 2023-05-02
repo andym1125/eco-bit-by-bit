@@ -118,10 +118,11 @@ async function scrapeMsci(body: ScraperBody, browser: Browser) {
     console.log(body.temp)
 }
 
-function runScraper(url : string) {
+function runScraper(url : string): ScraperBody|null {
     const browserPromise = puppeteer.launch({headless:false})
     let browser : Browser
 
+    let ret: ScraperBody|null
     browserPromise.then(async (result) => {
         browser = result
         const body: ScraperBody = {}
@@ -129,6 +130,7 @@ function runScraper(url : string) {
         await scrapeMsci(body, browser)
 
         console.log(body)
+        ret = body
     }).catch((e) => {
         console.error(e)
     }).finally(async () => {
@@ -138,6 +140,7 @@ function runScraper(url : string) {
         } else
             console.error('Browser FAILED to close')
     })
+    return ret
 }
 runScraper("https://www.amazon.com/Skechers-Expected-Avillo-Relaxed-Fit-Loafer/dp/B00P6LHCAO/");
 // runScraper("https://www.amazon.com/Gildan-Mens-T-Shirt-Assortment-X-Large/dp/B077ZJXCTS");
