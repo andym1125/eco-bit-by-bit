@@ -1,11 +1,14 @@
 import express, { RequestHandler } from 'express'
-import {ScoreResponseBody} from './../../types'
+import { ScoreResponseBody } from './../../types'
+import cors from 'cors';
 
 const app = express()
 const PORT = 3001
 
 const CLIENT_PATH = '/'
 const SCORE_PATH = '/score'
+
+app.use(cors())
 
 app.get("/", (req, res) => {
     res.send('Hello world')
@@ -22,8 +25,7 @@ app.listen(PORT, () => {
     console.log(`Server running at ${PORT}`)
 })
 
-function dummyScoreResponse() : ScoreResponseBody
-{
+function dummyScoreResponse(): ScoreResponseBody {
     return {
         name: "Lorem Product",
         url: "amazon.com/loremipsumproduct",
@@ -44,7 +46,6 @@ function dummyScoreResponse() : ScoreResponseBody
     }
 }
 
-function getScorePath (req: any, res: any)
-{
+function getScorePath(req: any, res: any) {
     res.send(dummyScoreResponse())
 }
