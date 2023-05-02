@@ -28,19 +28,30 @@ async function checkEval<T>(promise: Promise<T>, sleepNum: number = 0, fatal: bo
 }
 
 
-async function scrapeAmazon(url : string, browser : Browser) {
+async function scrapeAmazon(body: ScraperBody, url : string, browser : Browser) {
     const page = await browser.newPage()
     await page.goto(url)
 
-    const title = (await page.$eval('#productTitle', (el) => el.innerHTML)).trim()
+    body.title = (await page.$eval('#productTitle', (el) => el.innerHTML)).trim()
 
-    const reviewQuery = '#reviewsMedley > div > .a-col-left > span.cr-widget-TitleRatingsHistogram > span > .AverageCustomerReviews > div > div.a-col-right > div > span > span'
+    await sleep(5000)
+
+    await page.bringToFront()
+    const reviewQuery = '.AverageCustomerReviews > div > div.a-col-right > div > span > span' // #reviewsMedley > div > .a-col-left > span.cr-widget-TitleRatingsHistogram > span >
     const reviewText = await page.$eval(reviewQuery, (el) => el.innerText)
-    const reviewNum = parseFloat(reviewText.match(/\d+\.\d+/g)[0])
+    body.customer_rating = parseFloat(reviewText.match(/\d+\.\d+/g)[0])
 
+    // await page.bringToFront()
+    // await page.waitForSelector('div#feature-bullets')
+    // const desc = await page.$eval("div#feature-bullets", (el) => {return el})
 
-    console.log(`title: ${title}`)
-    console.log(`review: ${reviewNum}`)
+    const val = await page.bringToFront().then(() => {
+        return page.waitForSelector('div#feature-bullets')
+    }).then(() => {
+        return page.$eval("div#feature-bullets", (el) => {return el})
+    })
+
+    // console.log(desc)
 }
 
 async function scrapeMsci(body: ScraperBody, browser: Browser) {
@@ -101,7 +112,8 @@ function runScraper(url : string) {
     browserPromise.then(async (result) => {
         browser = result
         const body: ScraperBody = {}
-        // await scrapeAmazon(url, browser)
+        scrapeAmazon(body, url, browser)
+        await sleep(15000)
         body.manufacturer = 'Walmart'
         await scrapeMsci(body, browser)
 
