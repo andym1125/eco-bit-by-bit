@@ -41,17 +41,10 @@ async function scrapeAmazon(body: ScraperBody, url : string, browser : Browser) 
     const reviewText = await page.$eval(reviewQuery, (el) => el.innerText)
     body.customer_rating = parseFloat(reviewText.match(/\d+\.\d+/g)[0])
 
-    // await page.bringToFront()
-    // await page.waitForSelector('div#feature-bullets')
-    // const desc = await page.$eval("div#feature-bullets", (el) => {return el})
-
-    const val = await page.bringToFront().then(() => {
-        return page.waitForSelector('div#feature-bullets')
-    }).then(() => {
-        return page.$eval("div#feature-bullets", (el) => {return el})
-    })
-
-    // console.log(desc)
+    await page.bringToFront()
+    await page.waitForSelector('div#feature-bullets')
+    body.description = await page.$eval("div#feature-bullets", (el: HTMLElement) => {return el.innerHTML})
+    console.log(body.description)
 }
 
 async function scrapeMsci(body: ScraperBody, browser: Browser) {
@@ -112,8 +105,7 @@ function runScraper(url : string) {
     browserPromise.then(async (result) => {
         browser = result
         const body: ScraperBody = {}
-        scrapeAmazon(body, url, browser)
-        await sleep(15000)
+        await scrapeAmazon(body, url, browser)
         body.manufacturer = 'Walmart'
         await scrapeMsci(body, browser)
 

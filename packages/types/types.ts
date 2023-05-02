@@ -23,7 +23,7 @@ export interface ScraperBody {
     customer_rating?: number,
     esg?: ESG,
     temp?: number,
-    description?: HTMLDivElement
+    description?: string
 }
 
 export type ESG = 'ccc'|'b'|'bb'|'bbb'|'a'|'aa'|'aaa'|null
