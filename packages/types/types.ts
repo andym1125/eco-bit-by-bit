@@ -5,7 +5,7 @@ export interface ScoreResponseBody {
     breakdown: {
         water: number,
         carbon: number,
-        esg: 'CCC'|'B'|'BB'|'BBB'|'A'|'AA'|'AAA',
+        esg: ESG,
         bio: number,
         recycle: number,
         durable: number,
@@ -18,10 +18,14 @@ export interface ScoreResponseBody {
 }
 
 export interface ScraperBody {
-    title: string,
-    manufacturer: string,
-    customer_rating: number,
-    esg: 'CCC'|'B'|'BB'|'BBB'|'A'|'AA'|'AAA',
-    temp: number,
-    description: HTMLDivElement
+    title?: string,
+    manufacturer?: string,
+    customer_rating?: number,
+    esg?: ESG,
+    temp?: number,
+    description?: string
+    err?: number
+    errmsg?: string
 }
+
+export type ESG = 'ccc'|'b'|'bb'|'bbb'|'a'|'aa'|'aaa'|null
