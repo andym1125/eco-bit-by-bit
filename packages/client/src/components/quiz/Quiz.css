@@ -1,36 +1,26 @@
 .Quiz-header {
     text-align: center;
-    background-color: lightblue;
+    background-color: #88acc9;
     height: 100px;
     padding-top: 5px;
-}
-
-.Intro-text {
-    /* other styles */
+  }
+  .Answer-text {
+    text-align: center;
+    color: #56a5eb;
+  }
+  .Center {
+    text-align: center;
+  }
+  .Intro-text {
     text-align: center;
     font-family: sans-serif;
     color: rgb(16, 151, 16);
     font-weight: bold;
-}
+  }
 
-.choice-container {
-    display: flex;
-    margin-bottom: 0.5rem;
-    width: 100%;
-    font-size: 1.8rem;
-    border: 0.1rem solid rgb(86, 165, 235, 0.25);
-    background-color: white;
-}
-
-.choice-container:hover {
-    cursor: pointer;
-    box-shadow: 0 0.4rem 1.4rem 0 rgba(86, 185, 235, 0.5);
-    transform: translateY(-0.1rem);
-    transition: transform 150ms;
-}
-
-.choice-prefix {
+  .choice-prefix {
     padding: 1.5rem 2.5rem;
     background-color: #56a5eb;
     color: white;
-}
+  }
+  
