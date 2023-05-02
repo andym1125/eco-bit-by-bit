@@ -2,7 +2,7 @@
   "name": "@eco-bit-by-bit/scraper",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/scraper/src/index.js",
   "scripts": {
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc",

@@ -1,4 +1,5 @@
 import puppeteer, {Browser, Page} from 'puppeteer'
+import {ScraperBody, ESG} from '../../types'
 
 const MSCI_URL = 'https://www.msci.com/our-solutions/esg-investing/esg-ratings-climate-search-tool'
 function sleep(ms: number) {
@@ -42,13 +43,13 @@ async function scrapeAmazon(url : string, browser : Browser) {
     console.log(`review: ${reviewNum}`)
 }
 
-async function scrapeMsci(browser: Browser) {
+async function scrapeMsci(body: ScraperBody, browser: Browser) {
     const page = await browser.newPage()
     await page.goto(MSCI_URL)
 
     // Search for company
     await page.waitForSelector('#_esgratingsprofile_keywords')
-    await page.type('#_esgratingsprofile_keywords', 'Walmart', {'delay': 250}) // TODO: Replace with maufacturer
+    await page.type('#_esgratingsprofile_keywords', body.manufacturer, {'delay': 250}) // TODO: Replace with maufacturer
     await sleep(2000)
     const noresult = await checkEval (
         page.$eval('#_esgratingsprofile_noResultMessageWrapper', (el: HTMLDivElement) => el.style.display),
@@ -62,21 +63,35 @@ async function scrapeMsci(browser: Browser) {
 
     // Begin retrieving data
     console.log("Retrieving " + await page.$eval('#_esgratingsprofile_esg-ratings-profile-container > .esg-ratings-profile-header-coredata > .header-company-title', (el: HTMLHeadingElement) => el.innerText))
+
+    // Retreive rating
     await page.click('#esg-transparency-toggle-link')
-    const rating = await page.$eval('#_esgratingsprofile_esg-ratings-profile-header > div > div.ratingdata-container > div.ratingdata-outercircle > div.ratingdata-company-rating',
+    body.esg = await page.$eval('#_esgratingsprofile_esg-ratings-profile-header > div > div.ratingdata-container > div.ratingdata-outercircle > div.ratingdata-company-rating',
         (el : HTMLDivElement) => {
             for(const className of el.classList)
             {
                 const result = /esg-rating-circle-(\w+)/.exec(className)
                 if(result !== null)
                 {
-                    return result[1]
+                    return result[1] as ESG
                 }
             }
             return null
         })
-    console.log(rating)
+    console.log(body.esg)
 
+    // Retreive temp
+    await page.click("#esg-climate-toggle-link")
+    body.temp = await page.$eval('span.implied-temp-rise-value', (el: HTMLSpanElement) =>
+    {
+        const match = el.innerText.match(/-?\d+(\.\d+)?/);
+        if (!match) {
+          return null;
+        }
+        const num = parseFloat(match[0]);
+        return num
+    })
+    console.log(body.temp)
 }
 
 function runScraper(url : string) {
@@ -85,15 +100,12 @@ function runScraper(url : string) {
 
     browserPromise.then(async (result) => {
         browser = result
+        const body: ScraperBody = {}
         // await scrapeAmazon(url, browser)
-        await scrapeMsci(browser)
+        body.manufacturer = 'Walmart'
+        await scrapeMsci(body, browser)
 
-        // for(let i = 0; i < 100; i++)
-        // {
-        //     console.log(`----${i}----`)
-        //     await scrapeMsci(browser)
-        // }
-
+        console.log(body)
     }).catch((e) => {
         console.error(e)
     }).finally(async () => {
