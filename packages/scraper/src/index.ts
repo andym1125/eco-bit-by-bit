@@ -36,15 +36,31 @@ async function scrapeAmazon(body: ScraperBody, url : string, browser : Browser) 
 
     await sleep(5000)
 
+    // Get reviews
     await page.bringToFront()
     const reviewQuery = '.AverageCustomerReviews > div > div.a-col-right > div > span > span' // #reviewsMedley > div > .a-col-left > span.cr-widget-TitleRatingsHistogram > span >
     const reviewText = await page.$eval(reviewQuery, (el) => el.innerText)
     body.customer_rating = parseFloat(reviewText.match(/\d+\.\d+/g)[0])
 
+    // Get description
     await page.bringToFront()
     await page.waitForSelector('div#feature-bullets')
     body.description = await page.$eval("div#feature-bullets", (el: HTMLElement) => {return el.innerHTML})
     console.log(body.description)
+
+    // Get manufacturer
+    body.manufacturer = await page.$eval('#detailBullets_feature_div > ul', (ul: HTMLUListElement) => {
+        for(const child of ul.children)
+        {
+            const span: HTMLSpanElement = child.children.item(0) as HTMLSpanElement
+            span.children.item(0)
+
+            if((span.children.item(0) as HTMLSpanElement).innerText.match('^[^\\w]*Manufacturer[^\\w]*:[^\\w]*$'))
+                return span.children.item(1).innerHTML
+        }
+        return null
+    })
+    console.log(`Manufacturer: ${body.manufacturer}`)
 }
 
 async function scrapeMsci(body: ScraperBody, browser: Browser) {
@@ -61,7 +77,11 @@ async function scrapeMsci(body: ScraperBody, browser: Browser) {
     )
     // await page.$eval('#_esgratingsprofile_noResultMessageWrapper', (el: HTMLDivElement) => el.style.display)
     if(noresult !== 'none')
-        console.log('noresult')
+    {
+        console.log('No MSCI result')
+        return
+    }
+
     await page.click('#ui-id-1 > li')
     await sleep(750)
 
@@ -106,7 +126,6 @@ function runScraper(url : string) {
         browser = result
         const body: ScraperBody = {}
         await scrapeAmazon(body, url, browser)
-        body.manufacturer = 'Walmart'
         await scrapeMsci(body, browser)
 
         console.log(body)

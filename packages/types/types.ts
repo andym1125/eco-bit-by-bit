@@ -24,6 +24,8 @@ export interface ScraperBody {
     esg?: ESG,
     temp?: number,
     description?: string
+    err?: number
+    errmsg?: string
 }
 
 export type ESG = 'ccc'|'b'|'bb'|'bbb'|'a'|'aa'|'aaa'|null
