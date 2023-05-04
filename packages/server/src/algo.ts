@@ -1,93 +1,106 @@
-import {ScoreResponseBody, ScraperBody} from './../../types'
+import {ScoreResponseBody, ScraperBody, ESG} from './../../types'
 
-const SUSTAINABLE_CLOTHING_MATERIALS: string[] = ['Hemp', 'Organic Cotton', 'Organic Linen', 'Lyocell', 'Enconyl', 'Cork', 'Pinatex', 'Polyester']; // Some common sustainable clothing materials to compare products with
+const SUSTAINABLE_CLOTHING_MATERIALS: string[] = ['Hemp', 'Organic Cotton', 'Organic Linen', 'Lyocell', 'Enconyl', 'Cork', 'Pinatex', 'Polyester', 'Bamboo', 'Stainless Steel',
+                                                    'Straw', 'Recycled Plastics', 'Cotton', 'Linen', 'Recycled']; // Some common sustainable clothing materials to compare products with
 
-// Check if product materials matches any of the sustainable materials in above array
-function Contains_Sustainable_Materials(productMaterial: string){
-    return SUSTAINABLE_CLOTHING_MATERIALS.find(element => element === productMaterial);
-}
-
-/*
-function HTMLToString ( HTMLelement ) {
-    var tmpNode = document.createElement( "div" );
-    tmpNode.appendChild( HTMLelement.cloneNode( true ) );
-    var str = tmpNode.innerHTML;
-    tmpNode = HTMLelement = null; // prevent memory leaks in IE
-    return str;
- }
-*/
 
 function score(x: ScraperBody):   void{
 
     let score = 0;
     let breakdown = "Score Breakdown:\n";
+    let count = 0;
 
-    // ESG score assignment
-
-    if(x.esg == 'CCC'){
-        score += 1;
-        breakdown += "CCC indicates company is laggard.\n";
+    for(let i = 0; i < SUSTAINABLE_CLOTHING_MATERIALS.length; ++i){
+        if(x.description.includes(SUSTAINABLE_CLOTHING_MATERIALS[i])){
+            ++count;
+        }
     }
 
-    else if(x.esg == 'B'){
-        score += 2;
-        breakdown += "B indicates company is laggard.\n";
+    if(count == 1){
+        breakdown += "This product contains some sustainable materials.\n"
+        score += 5;
     }
 
-    else if(x.esg == 'BB'){
-        score += 3;
-        breakdown += "BB indicates company is average.\n";
+    else if(count == 2 || count == 3){
+        breakdown += "This product contains sustainable materials.\n"
+        score += 15;
     }
 
-    else if(x.esg == 'BBB'){
-        score += 4;
-        breakdown += "BBB indicates company is average.\n";
-    }
-
-    else if(x.esg == 'A'){
-        score += 6;
-        breakdown += "A indicates company is average.\n";
-    }
-
-    else if(x.esg == 'AA'){
-        score += 8;
-        breakdown += "AA indicates company is leader.\n";
-    }
-
-    else if(x.esg == 'AAA'){
-        score += 10;
-        breakdown += "AAA indicates company is leader.\n";
+    else if(count >= 4){
+        breakdown += "This product contains many sustainable materials.\n"
+        score += 25;
     }
 
     else{
+        breakdown += "This product could not be determined to contain any sutainable materials.\n"
+    }
+
+
+    // ESG score assignment
+
+    breakdown += "ESG(Environmental, Social, and Governance) Ratings aim to measure a company's management of financially relevant ESG risks and opportunities.\n"
+    if(x.esg == 'ccc'){
+        score += 5;
+        breakdown += "Manufacturer ESG rating: CCC\nA rating of CCC indicates company is laggard.\n";
+    }
+
+    else if(x.esg == 'b'){
+        score += 8;
+        breakdown += "Manufacturer ESG rating: B\nA rating of B indicates company is laggard.\n";
+    }
+
+    else if(x.esg == 'bb'){
+        score += 12;
+        breakdown += "Manufacturer ESG rating: BB\nA rating of BB indicates company is average.\n";
+    }
+
+    else if(x.esg == 'bbb'){
+        score += 15;
+        breakdown += "Manufacturer ESG rating: BBB\nA rating of BBB indicates company is average.\n";
+    }
+
+    else if(x.esg == 'a'){
+        score += 20;
+        breakdown += "Manufacturer ESG rating: A\nA rating of A indicates company is average.\n";
+    }
+
+    else if(x.esg == 'aa'){
+        score += 22;
+        breakdown += "Manufacturer ESG rating: AA\nA rating of AA indicates company is leader.\n";
+    }
+
+    else if(x.esg == 'aaa'){
+        score += 25;
+        breakdown += "Manufacturer ESG rating: AAA\nA rating of AAA indicates company is leader.\n";
+    }
+
+    else{
+        breakdown += "ESG score not found for the manufacturer of this product.\n";
         // ESG not available
     }
     // ESG score assignment end
 
     // Carbon score assignment
-    if(x.temp == -1){
-        // temp not available
-    }
-
-    else if(x.temp <= 1.5){
-        score += 10;
+    breakdown += "Implied Temperature Rise from MSCI ESG Research is an intuitive, forward-looking metric, expressed in degrees Celsius, designed to show the temperature alignment of companies with global temperature goals\n";
+    if(x.temp <= 1.5){
+        score += 25;
         breakdown += "MSCI Implied Temperature Rise less than or equal to 1.5 indicates this company is alligned with global temperature goals.\n";
     }
 
     else if(x.temp <= 2){
-        score += 8;
+        score += 15;
         breakdown += "MSCI Implied Temperature Rise between 1.5 and 2 indicates this company is alligned with global temperature goals.\n";
 
     }
 
     else if(x.temp <= 3.2){
-        score += 4;
+        score += 10;
         breakdown += "MSCI Implied Temperature Rise between 2 and 3.2 indicates this company is misalligned with global temperature goals.\n";
 
     }
 
     else{
-        score += 1;
+        score += 5;
         breakdown += "MSCI Implied Temperature Rise greater than 3.2 indicates this company is strongly misalligned with global temperature goals.\n";
 
     }
@@ -95,24 +108,30 @@ function score(x: ScraperBody):   void{
 
 
     // Customer review score assignment
+    breakdown += "Customer Review Analysis\n"
     if(x.customer_rating == 1){
-        score += 1;
+        breakdown += "Customers really didn't like this product.\n"
+        score += 5;
     }
 
     else if(x.customer_rating == 2){
-        score += 2;
+        breakdown += "Customers didn't like this product.\n"
+        score += 10;
     }
 
     else if(x.customer_rating == 3){
-        score += 3;
+        breakdown += "Customers thought that this product was okay.\n"
+        score += 15;
     }
 
     else if(x.customer_rating == 4){
-        score += 4;
+        breakdown += "Customers enjoyed this product.\n"
+        score += 20;
     }
 
     else if(x.customer_rating == 5){
-        score += 5;
+        breakdown += "Customers really liked this product.\n"
+        score += 25;
     }
 
 
