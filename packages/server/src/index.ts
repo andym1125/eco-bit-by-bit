@@ -63,5 +63,9 @@ async function getScorePath(req: any, res: any) {
     // tslint:disable-next-line:no-console
     console.log(scraperBody)
 
-    res.send(dummyScoreResponse())
+    const algoRes = score(scraperBody)
+    // tslint:disable-next-line:no-console
+    console.log(algoRes)
+
+    res.send(algoRes)
 }

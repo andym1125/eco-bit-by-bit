@@ -126,7 +126,7 @@ export default function runScraper(url : string): Promise<ScraperBody|null> {
 
     return browserPromise.then(async (result) : Promise<ScraperBody|null> => {
         browser = result
-        const body: ScraperBody = {}
+        const body: ScraperBody = {url}
         await scrapeAmazon(body, url, browser)
         await scrapeMsci(body, browser)
 

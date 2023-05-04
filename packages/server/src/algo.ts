@@ -139,7 +139,7 @@ export default function score(x: ScraperBody): ScoreResponseBody {
     {
         return {
             name: x.title,
-            url: 'string',
+            url: x.url,
             score: 0,
             breakdown: {
                 water: 0,
@@ -160,8 +160,8 @@ export default function score(x: ScraperBody): ScoreResponseBody {
 
     return {
         name: x.title,
-        url: 'string',
-        score: 65, // placeholder
+        url: x.url,
+        score: numScore, // placeholder
         breakdown: {
             water: 65, // placeholder
             carbon: 65, // placeholder
@@ -177,13 +177,3 @@ export default function score(x: ScraperBody): ScoreResponseBody {
         reliability: 65 // placeholder
     }
 }
-
-// tslint:disable-next-line:no-console in
-console.log(score({
-    title: "Fancy boots",
-    manufacturer: "Walmart",
-    customer_rating: 4.2,
-    esg: 'aa',
-    // temp: 1.7,
-    description: "string"
-}))
