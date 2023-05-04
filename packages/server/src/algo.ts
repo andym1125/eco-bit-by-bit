@@ -4,7 +4,7 @@ const SUSTAINABLE_CLOTHING_MATERIALS: string[] = ['Hemp', 'Organic Cotton', 'Org
                                                     'Straw', 'Recycled Plastics', 'Cotton', 'Linen', 'Recycled']; // Some common sustainable clothing materials to compare products with
 
 
-function score(x: ScraperBody): ScoreResponseBody {
+export default function score(x: ScraperBody): ScoreResponseBody {
 
     let numScore = 0;
     let breakdown = "Score Breakdown:\n";
