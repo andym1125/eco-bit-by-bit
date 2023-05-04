@@ -31,9 +31,9 @@ function dummyScoreResponse(): ScoreResponseBody {
         url: "amazon.com/loremipsumproduct",
         score: 98,
         breakdown: {
-            water: 34,
+            water: 71,
             carbon: 52,
-            esg: 'BBB',
+            esg: 'bbb',
             bio: 16,
             recycle: 34,
             durable: 25,
