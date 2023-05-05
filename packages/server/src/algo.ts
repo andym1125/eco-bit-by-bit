@@ -4,14 +4,17 @@ import {ScoreResponseBody, ScraperBody, ESG} from './../../types'
 export default function score(x: ScraperBody): ScoreResponseBody {
 
     let numScore = 0;
-    let ScoreExp = "Score Breakdown:\n";
     let carbonScore = 0,
     bioScore = 0,
     recycleScore = 0,
     durability = 0,
-    waterScore = 0;
+    waterScore = 0,
+    reliabilityScore = 0;
+    let mFlag = false,
+    esgFlag = true;
+    let reliabilityExp = "Reliability Score: ";
 
-    ScoreExp += "Material Breakdown:\n"
+    let ScoreExp = "\nMaterial Breakdown:\n";
     if(x.description.includes("hemp") || x.description.includes("Hemp")){
         ScoreExp += "This product uses hemp. Hemp produces far more pulp per plant than the equivalent amount of timber and is biodegradable.\n";
         waterScore += 50;
@@ -19,6 +22,7 @@ export default function score(x: ScraperBody): ScoreResponseBody {
         recycleScore += 50;
         durability += 20;
         carbonScore += 50;
+        mFlag = true;
     }
 
     if(x.description.includes("Cotton") || x.description.includes("cotton")){
@@ -28,6 +32,7 @@ export default function score(x: ScraperBody): ScoreResponseBody {
         recycleScore += 40;
         durability += 40;
         carbonScore += 20;
+        mFlag = true;
     }
 
     if(x.description.includes("Linen") || x.description.includes("linen")){
@@ -38,6 +43,7 @@ export default function score(x: ScraperBody): ScoreResponseBody {
             recycleScore += 50;
             durability += 50;
             carbonScore += 30;
+            mFlag = true;
 
     }
 
@@ -49,6 +55,7 @@ export default function score(x: ScraperBody): ScoreResponseBody {
         recycleScore += 50;
         durability += 50;
         carbonScore += 50;
+        mFlag = true;
     }
 
     if(x.description.includes("Lyocell") || x.description.includes("lyocell")){
@@ -58,6 +65,7 @@ export default function score(x: ScraperBody): ScoreResponseBody {
         recycleScore += 50;
         durability += 50;
         carbonScore += 30;
+        mFlag = true;
     }
 
     if(x.description.includes("Straw") || x.description.includes("straw")){
@@ -67,6 +75,7 @@ export default function score(x: ScraperBody): ScoreResponseBody {
         recycleScore += 50;
         durability += 50;
         carbonScore += 50;
+        mFlag = true;
     }
 
     if(x.description.includes("Stainless Steel") || x.description.includes("stainless steel")){
@@ -76,6 +85,7 @@ export default function score(x: ScraperBody): ScoreResponseBody {
         recycleScore += 50;
         durability += 50;
         carbonScore += 10;
+        mFlag = true;
     }
 
     if(x.description.includes("pinatex") || x.description.includes("Pinatex")){
@@ -86,6 +96,7 @@ export default function score(x: ScraperBody): ScoreResponseBody {
         recycleScore += 50;
         durability += 50;
         carbonScore += 50;
+        mFlag = true;
     }
 
     if(x.description.includes("Straw") || x.description.includes("straw")){
@@ -95,6 +106,7 @@ export default function score(x: ScraperBody): ScoreResponseBody {
         recycleScore += 50;
         durability += 50;
         carbonScore += 50;
+        mFlag = true;
     }
 
     if(x.description.includes("Polyester") || x.description.includes("polyester")){
@@ -104,6 +116,7 @@ export default function score(x: ScraperBody): ScoreResponseBody {
         recycleScore -= 50;
         durability += 50;
         carbonScore -= 50;
+        mFlag = true;
     }
 
     if(x.description.includes("Rayon") || x.description.includes("rayon")){
@@ -113,6 +126,7 @@ export default function score(x: ScraperBody): ScoreResponseBody {
         recycleScore -= 50;
         durability += 50;
         carbonScore -= 50;
+        mFlag = true;
     }
 
     if(waterScore < 0){
@@ -156,7 +170,7 @@ export default function score(x: ScraperBody): ScoreResponseBody {
     }
 
     // ESG score assignment
-    ScoreExp += "ESG(Environmental, Social, and Governance) Ratings aim to measure a company's management of financially relevant ESG risks and opportunities.\n"
+    ScoreExp += "\nESG(Environmental, Social, and Governance) Ratings aim to measure a company's management of financially relevant ESG risks and opportunities.\n"
     if(x.esg === 'ccc'){
         numScore += 5;
         ScoreExp += "Manufacturer ESG rating: CCC\nA rating of CCC indicates company is laggard.\n";
@@ -194,12 +208,13 @@ export default function score(x: ScraperBody): ScoreResponseBody {
 
     else{
         ScoreExp += "ESG score not found for the manufacturer of this product.\n";
+        esgFlag = false;
         // ESG not available
     }
     // ESG score assignment end
 
     // Carbon score assignment
-    ScoreExp += "Implied Temperature Rise from MSCI ESG Research is an intuitive, forward-looking metric, expressed in degrees Celsius, designed to show the temperature alignment of companies with global temperature goals\n";
+    ScoreExp += "\nImplied Temperature Rise from MSCI ESG Research is an intuitive, forward-looking metric, expressed in degrees Celsius, designed to show the temperature alignment of companies with global temperature goals\n";
     if(x.temp <= 1.5){
         numScore += 25;
         ScoreExp += "MSCI Implied Temperature Rise less than or equal to 1.5 indicates this company is alligned with global temperature goals.\n";
@@ -230,26 +245,79 @@ export default function score(x: ScraperBody): ScoreResponseBody {
     if(x.customer_rating === 1){
         ScoreExp += "This product averaged a 1 star rating indicating this is probably not a durable product.\n"
         numScore += 5;
+        reliabilityScore += 5;
     }
 
     else if(x.customer_rating === 2){
         ScoreExp += "This product averaged a 2 star rating indicating this may not be a durable product.\n"
         numScore += 10;
+        reliabilityScore += 10;
     }
 
     else if(x.customer_rating === 3){
         ScoreExp += "This product averaged a 3 star rating indicating this product has average durability.\n"
         numScore += 15;
+        reliabilityScore += 15;
     }
 
     else if(x.customer_rating === 4){
         ScoreExp += "This product averaged a 4 star rating indicating this could be a durable product.\n"
         numScore += 20;
+        reliabilityScore += 20;
     }
 
     else if(x.customer_rating === 5){
         ScoreExp += "This product averaged a 5 star rating indicating this is a durable product.\n"
         numScore += 25;
+        reliabilityScore += 25;
+    }
+
+    if(esgFlag && mFlag){
+        reliabilityScore +=75;
+    }
+
+    else if(esgFlag || mFlag){
+        reliabilityScore += 50;
+    }
+
+    else{
+        reliabilityScore += 20;
+    }
+
+    if(reliabilityScore >= 90){
+        reliabilityExp += "A\tWe found information on the manufacturer and what materials are used. This product also received positive reviews.\n";
+    }
+
+    else if(reliabilityScore >= 80){
+        reliabilityExp += "B\tWe found information on the manufacturer and what materials are used. This product did not receive very good reviews.\n";
+    }
+
+    else if(reliabilityScore >= 65){
+        if(esgFlag){
+            reliabilityExp += "C\tWe found information on the manufacturer, but not on any of the materials used. This product also received positive reviews.\n";
+        }
+
+        else{
+            reliabilityExp += "C\tWe found information on the materials used, but not about the manufacturer. This product also received positive reviews.\n";
+        }
+    }
+
+    else if(reliabilityScore >= 50){
+        if(esgFlag){
+            reliabilityExp += "D\tWe found information on the manufacturer, but not on any of the materials used. This product did not receive very good reviews.\n";
+        }
+
+        else{
+            reliabilityExp += "D\tWe found information on the materials used, but not about the manufacturer. This product did not receive very good reviews.\n";
+        }
+    }
+
+    else if(reliabilityScore >= 35){
+        reliabilityExp += "E\tWe could not find any information on the manufacturer or the materials used. This product did however receive positive reviews.\n";
+    }
+
+    else{
+        reliabilityExp += "F\tWe could not find any information on the manufacturer or the materials used. This product recieved poor reviews.\n";
     }
 
     if(x.errmsg)
@@ -290,7 +358,7 @@ export default function score(x: ScraperBody): ScoreResponseBody {
         },
         err: null,
         expl: ScoreExp, // placeholder
-        reli_expl: ' //placeholder', // placeholder
-        reliability: 65 // placeholder
+        reli_expl: reliabilityExp, // placeholder
+        reliability: reliabilityScore // placeholder
     }
 }
