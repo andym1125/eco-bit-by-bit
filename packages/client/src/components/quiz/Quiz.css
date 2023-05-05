@@ -13,6 +13,15 @@
     font-weight: bold;
 }
 
+.Answer-text {
+  text-align: center;
+}
+
+.Center {
+  padding-top: 20px;
+  text-align: center;
+}
+
 .choice-container {
     display: flex;
     margin-bottom: 0.5rem;
