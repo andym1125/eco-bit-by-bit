@@ -35,6 +35,7 @@ const Textbox: React.FC<InputBoxProps> = ({ onDelete }) => {
     const { productNames, addProductName, setAllProductNames } = useProductNames();
     const [inputBoxScores, setInputBoxScores] = useState<number[]>([]);
     const [inputErrors, setInputErrors] = useState<string[]>([]);
+    const [processedInputs, setProcessedInputs] = useState<boolean[]>([]);
 
     const fetchData = async (url: string, index: number) => {
         try {
@@ -58,7 +59,14 @@ const Textbox: React.FC<InputBoxProps> = ({ onDelete }) => {
 
     const fetchScoreData = (inputUrl: string, index: number) => {
         const productId = inputUrl.split("/").slice(3).join("/");
-        fetchData(`http://localhost:3001/score/${productId}`, index);
+        if (!processedInputs[index]) {
+            fetchData(`http://localhost:3001/score/${productId}`, index);
+            setProcessedInputs((prev) => {
+                const newProcessedInputs = [...prev];
+                newProcessedInputs[index] = true;
+                return newProcessedInputs;
+            });
+        }
     };
 
     const toggleDropdown = (index: number) => {
