@@ -33,7 +33,7 @@ function dummyScoreResponse(): ScoreResponseBody {
         breakdown: {
             water: 34,
             carbon: 52,
-            esg: 'BBB',
+            esg: 'bbb',
             bio: 16,
             recycle: 34,
             durable: 25,
