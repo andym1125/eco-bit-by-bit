@@ -1,6 +1,9 @@
 import express, { RequestHandler } from 'express'
 import { ScoreResponseBody } from './../../types'
+import runScraper from './../../scraper/src'
+
 import cors from 'cors';
+import score from './algo';
 
 const app = express()
 const PORT = 3001
@@ -31,7 +34,7 @@ function dummyScoreResponse(): ScoreResponseBody {
         url: "amazon.com/loremipsumproduct",
         score: 98,
         breakdown: {
-            water: 34,
+            water: 71,
             carbon: 52,
             esg: 'bbb',
             bio: 16,
@@ -46,6 +49,23 @@ function dummyScoreResponse(): ScoreResponseBody {
     }
 }
 
-function getScorePath(req: any, res: any) {
-    res.send(dummyScoreResponse())
+async function getScorePath(req: any, res: any) {
+
+    const request = req as Request
+    const response = res as Response
+
+    let newUrl = request.url.substring(7, request.url.length)
+    newUrl = "https://www.amazon.com/" + newUrl
+    // tslint:disable-next-line:no-console
+    console.log(newUrl)
+
+    const scraperBody = await runScraper(newUrl)
+    // tslint:disable-next-line:no-console
+    console.log(scraperBody)
+
+    const algoRes = score(scraperBody)
+    // tslint:disable-next-line:no-console
+    console.log(algoRes)
+
+    res.send(algoRes)
 }

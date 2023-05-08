@@ -18,6 +18,7 @@ export interface ScoreResponseBody {
 }
 
 export interface ScraperBody {
+    url: string,
     title?: string,
     manufacturer?: string,
     customer_rating?: number,

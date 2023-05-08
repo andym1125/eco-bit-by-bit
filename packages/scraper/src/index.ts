@@ -20,6 +20,7 @@ async function checkEval<T>(promise: Promise<T>, sleepNum: number = 0, fatal: bo
         try {
             ret = await promise
         } catch(e) {
+            // tslint:disable-next-line:no-console
             console.log(e)
         }
     }
@@ -46,7 +47,7 @@ async function scrapeAmazon(body: ScraperBody, url : string, browser : Browser) 
     await page.bringToFront()
     await page.waitForSelector('div#feature-bullets')
     body.description = await page.$eval("div#feature-bullets", (el: HTMLElement) => {return el.innerHTML})
-    console.log(body.description)
+    // console.log(body.description)
 
     // Get manufacturer
     body.manufacturer = await page.$eval('#detailBullets_feature_div > ul', (ul: HTMLUListElement) => {
@@ -60,7 +61,7 @@ async function scrapeAmazon(body: ScraperBody, url : string, browser : Browser) 
         }
         return null
     })
-    console.log(`Manufacturer: ${body.manufacturer}`)
+    // console.log(`Manufacturer: ${body.manufacturer}`)
 }
 
 async function scrapeMsci(body: ScraperBody, browser: Browser) {
@@ -78,6 +79,7 @@ async function scrapeMsci(body: ScraperBody, browser: Browser) {
     // await page.$eval('#_esgratingsprofile_noResultMessageWrapper', (el: HTMLDivElement) => el.style.display)
     if(noresult !== 'none')
     {
+        // tslint:disable-next-line:no-console
         console.log('No MSCI result')
         return
     }
@@ -86,7 +88,7 @@ async function scrapeMsci(body: ScraperBody, browser: Browser) {
     await sleep(750)
 
     // Begin retrieving data
-    console.log("Retrieving " + await page.$eval('#_esgratingsprofile_esg-ratings-profile-container > .esg-ratings-profile-header-coredata > .header-company-title', (el: HTMLHeadingElement) => el.innerText))
+    // console.log("Retrieving " + await page.$eval('#_esgratingsprofile_esg-ratings-profile-container > .esg-ratings-profile-header-coredata > .header-company-title', (el: HTMLHeadingElement) => el.innerText))
 
     // Retreive rating
     await page.click('#esg-transparency-toggle-link')
@@ -102,7 +104,7 @@ async function scrapeMsci(body: ScraperBody, browser: Browser) {
             }
             return null
         })
-    console.log(body.esg)
+    // console.log(body.esg)
 
     // Retreive temp
     await page.click("#esg-climate-toggle-link")
@@ -115,32 +117,37 @@ async function scrapeMsci(body: ScraperBody, browser: Browser) {
         const num = parseFloat(match[0]);
         return num
     })
-    console.log(body.temp)
+    // console.log(body.temp)
 }
 
-function runScraper(url : string): ScraperBody|null {
+export default function runScraper(url : string): Promise<ScraperBody|null> {
     const browserPromise = puppeteer.launch({headless:false})
     let browser : Browser
 
-    let ret: ScraperBody|null
-    browserPromise.then(async (result) => {
+    return browserPromise.then(async (result) : Promise<ScraperBody|null> => {
         browser = result
-        const body: ScraperBody = {}
+        const body: ScraperBody = {url}
         await scrapeAmazon(body, url, browser)
         await scrapeMsci(body, browser)
 
-        console.log(body)
-        ret = body
+        // console.log(body)
+        // ret = body
+        return body
     }).catch((e) => {
+        // tslint:disable-next-line:no-console
         console.error(e)
+        return null
     }).finally(async () => {
         if(browser) {
             await browser.close()
+            // tslint:disable-next-line:no-console
             console.log('Browser successfully closed')
         } else
+            // tslint:disable-next-line:no-console
             console.error('Browser FAILED to close')
+        return null
     })
-    return ret
+    // return ret
 }
 runScraper("https://www.amazon.com/Skechers-Expected-Avillo-Relaxed-Fit-Loafer/dp/B00P6LHCAO/");
 // runScraper("https://www.amazon.com/Gildan-Mens-T-Shirt-Assortment-X-Large/dp/B077ZJXCTS");
