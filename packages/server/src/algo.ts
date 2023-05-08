@@ -4,14 +4,14 @@ import {ScoreResponseBody, ScraperBody, ESG} from './../../types'
 export default function score(x: ScraperBody): ScoreResponseBody {
 
     let numScore = 0;
-    let carbonScore = 0,
-    bioScore = 0,
-    recycleScore = 0,
-    durability = 0,
-    waterScore = 0,
-    reliabilityScore = 0;
-    let mFlag = false,
-    esgFlag = true;
+    let carbonScore = 0
+    let bioScore = 0
+    let recycleScore = 0
+    let durability = 0
+    let waterScore = 0
+    let reliabilityScore = 0;
+    let mFlag = false
+    let esgFlag = true;
     let reliabilityExp = "Reliability Score: ";
 
     let ScoreExp = "\nMaterial Breakdown:\n";
